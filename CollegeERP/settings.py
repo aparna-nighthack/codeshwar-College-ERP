@@ -138,3 +138,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
 }
+
+AUTHENTICATION_BACKENDS = [
+    'info.backends.PasswordOnlyBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
