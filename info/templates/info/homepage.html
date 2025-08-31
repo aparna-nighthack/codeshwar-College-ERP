@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>homepage</title>
+    <title>Home — CollegeERP</title>
       {% load static %}
 
     <!-- Bootstrap core CSS -->
@@ -17,7 +17,7 @@
 
     <!-- Custom styles for this template -->
       <link href="{% static '/info/homepage/css/heroic-features.css' %}" rel="stylesheet">
-          <link href="{% static '/info/bootstrap/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+      <link href="{% static '/info/homepage/css/homepage.css' %}" rel="stylesheet">
 
 
 
@@ -26,16 +26,23 @@
   <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
       <div class="container">
-          <a class="navbar-brand" href="{% url 'index' %}">CollegeERP</a>
+          <a class="navbar-brand font-weight-bold" href="{% url 'index' %}">CollegeERP</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link text-capitalize">{{ request.user.student.name }}</a>
+                <span class="nav-link p-0">
+                  <span class="user-chip">
+                    <span class="user-initial">
+                      {{ request.user.student.name|slice:":1"|upper }}
+                    </span>
+                    <span class="user-name text-capitalize">{{ request.user.student.name }}</span>
+                  </span>
+                </span>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
@@ -49,8 +56,9 @@
     <div class="container">
 
       <!-- Jumbotron Header -->
-      <header class="jumbotron my-4">
-        <h1 class="display-3 text-capitalize">Welcome {{ request.user.student.name }}</h1>
+      <header class="jumbotron my-4 hero">
+        <h1 class="display-4 font-weight-bold mb-2 text-capitalize">Welcome, {{ request.user.student.name }}</h1>
+        <p class="lead mb-0">Happy to see you back. Today is {% now "l, F j, Y" %}.</p>
 {#        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>#}
 {#        <a href="#" class="btn btn-primary btn-lg">Call to action!</a>#}
       </header>
@@ -58,50 +66,47 @@
       <!-- Page Features -->
       <div class="row text-center">
 
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card feature-card h-100">
               <a href="{% url 'attendance' request.user.student.USN %}">
-                <img class="card-img-top" src="{% static 'info/images/attendance2.jpg' %}" alt="">
+                <img class="card-img-top" src="{% static 'info/images/attendance2.jpg' %}" alt="Attendance overview">
               </a>
               <div class="card-body">
-              <h4 class="card-title">Attendance</h4>
-              <p class="card-text">View the attendance status for each of your courses. The attendance of each course is
-                  also displayed as list of classes that were conducted.</p>
+              <h4 class="card-title mb-2">Attendance</h4>
+              <p class="card-text mb-0">Track attendance across all courses. See per-class session history and totals.</p>
             </div>
-            <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="{% url 'attendance' request.user.student.USN %}"> View Attendance</a>
+            <div class="card-footer bg-transparent border-0 pt-0">
+                <a class="btn btn-primary btn-block" role="button" href="{% url 'attendance' request.user.student.USN %}">View Attendance</a>
             </div>
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card feature-card h-100">
               <a href="{% url 'marks_list' request.user.student.USN %}">
-                <img class="card-img-top" src="{% static 'info/images/marks.jpg' %}" alt="">
+                <img class="card-img-top" src="{% static 'info/images/marks.jpg' %}" alt="Marks summary">
               </a>
               <div class="card-body">
-              <h4 class="card-title">Marks</h4>
-              <p class="card-text">View the marks obtained for each of your courses. These include the marks of 3
-                  internal assessment, 2 events and the Semester End Exam  </p>
+              <h4 class="card-title mb-2">Marks</h4>
+              <p class="card-text mb-0">Review IA scores, event marks, and SEE results for every course.</p>
             </div>
-            <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="{% url 'marks_list' request.user.student.USN %}">View Marks</a>
+            <div class="card-footer bg-transparent border-0 pt-0">
+                <a class="btn btn-primary btn-block" role="button" href="{% url 'marks_list' request.user.student.USN %}">View Marks</a>
             </div>
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card feature-card h-100">
               <a href="{% url 'timetable' request.user.student.class_id_id %}">
-                <img class="card-img-top" src="{% static 'info/images/timetable.png' %}" alt="">
+                <img class="card-img-top" src="{% static 'info/images/timetable.png' %}" alt="Weekly timetable">
               </a>
               <div class="card-body">
-              <h4 class="card-title">TimeTable</h4>
-              <p class="card-text">View the timetable in a tabular form. The timetable displays all the courses of the
-                  student and the time and day at which they are conducted.</p>
+              <h4 class="card-title mb-2">Timetable</h4>
+              <p class="card-text mb-0">See your weekly schedule with courses and timings at a glance.</p>
             </div>
-            <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="{% url 'timetable' request.user.student.class_id_id %}">View TimeTable</a>
+            <div class="card-footer bg-transparent border-0 pt-0">
+                <a class="btn btn-primary btn-block" role="button" href="{% url 'timetable' request.user.student.class_id_id %}">View Timetable</a>
             </div>
           </div>
         </div>
