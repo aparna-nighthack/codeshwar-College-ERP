@@ -160,12 +160,3 @@ class InfoTest(TestCase):
     #     resp = self.client.get(reverse('t_clas', args=(t.id, 1)))
     #     self.assertEqual(resp.status_code, 200)
     #     self.assertContains(resp, "Enter Attendance")
-
-
-
-
-
-
-
-
-

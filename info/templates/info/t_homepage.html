@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>homepage</title>
+    <title>Home — CollegeERP</title>
       {% load static %}
 
     <!-- Bootstrap core CSS -->
@@ -17,7 +17,7 @@
 
     <!-- Custom styles for this template -->
       <link href="{% static '/info/homepage/css/heroic-features.css' %}" rel="stylesheet">
-          <link href="{% static '/info/bootstrap/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+      <link href="{% static '/info/homepage/css/homepage.css' %}" rel="stylesheet">
 
 
 
@@ -26,16 +26,23 @@
   <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'index' %}">CollegeERP</a>
+        <a class="navbar-brand font-weight-bold" href="{% url 'index' %}">CollegeERP</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link text-capitalize">{{ request.user.student.name }}</a>
+                <span class="nav-link p-0">
+                  <span class="user-chip">
+                    <span class="user-initial">
+                      {{ request.user.teacher.name|slice:":1"|upper }}
+                    </span>
+                    <span class="user-name text-capitalize">{{ request.user.teacher.name }}</span>
+                  </span>
+                </span>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
@@ -49,8 +56,9 @@
     <div class="container">
 
       <!-- Jumbotron Header -->
-      <header class="jumbotron my-4">
-        <h1 class="display-3 text-capitalize">Welcome {{ request.user.teacher.name }}</h1>
+      <header class="jumbotron my-4 hero">
+        <h1 class="display-4 font-weight-bold mb-2 text-capitalize">Welcome, {{ request.user.teacher.name }}</h1>
+        <p class="lead mb-0">Here’s your teaching hub for {% now "F Y" %}.</p>
 {#        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>#}
 {#        <a href="#" class="btn btn-primary btn-lg">Call to action!</a>#}
       </header>
@@ -59,65 +67,65 @@
       <div class="row text-center">
 
         <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
+          <div class="card feature-card">
               <a href="{% url 't_clas' request.user.teacher.id 1 %}">
-                <img class="card-img-top" src="{% static 'info/images/attendance2.jpg' %}" alt="">
+                <img class="card-img-top" src="{% static 'info/images/attendance2.jpg' %}" alt="Attendance entry">
               </a>
               <div class="card-body">
-              <h4 class="card-title">Attendance</h4>
+              <h4 class="card-title mb-2">Attendance</h4>
               <p class="card-text">Enter the attendance of the students based on the class they are in. There is also
                   the provision to edit the attendance of a whole class or student individually.</p>
             </div>
-            <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="{% url 't_clas' request.user.teacher.id 1 %}"> Enter Attendance</a>
+            <div class="card-footer bg-transparent border-0 pt-0">
+                <a class="btn btn-primary btn-block" role="button" href="{% url 't_clas' request.user.teacher.id 1 %}">Enter Attendance</a>
             </div>
           </div>
         </div>
 
         <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
+          <div class="card feature-card">
               <a href="{% url 't_clas' request.user.teacher.id 2 %}">
-                <img class="card-img-top" src="{% static 'info/images/marks.jpg' %}" alt="">
+                <img class="card-img-top" src="{% static 'info/images/marks.jpg' %}" alt="Marks entry">
               </a>
               <div class="card-body">
-              <h4 class="card-title">Marks</h4>
+              <h4 class="card-title mb-2">Marks</h4>
               <p class="card-text">Enter the marks of the students based on the class they are in. This includes
                     Internals, events and SEE. The marks of the students can also be edited.</p>
             </div>
-            <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="{% url 't_clas' request.user.teacher.id 2 %}">Enter Marks</a>
+            <div class="card-footer bg-transparent border-0 pt-0">
+                <a class="btn btn-primary btn-block" role="button" href="{% url 't_clas' request.user.teacher.id 2 %}">Enter Marks</a>
             </div>
           </div>
         </div>
 
         <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
+          <div class="card feature-card">
               <a href="{% url 't_timetable' request.user.teacher.id %}">
-                <img class="card-img-top" src="{% static 'info/images/timetable.png' %}" alt="">
+                <img class="card-img-top" src="{% static 'info/images/timetable.png' %}" alt="Timetable view">
               </a>
               <div class="card-body">
-              <h4 class="card-title">TimeTable</h4>
+              <h4 class="card-title mb-2">Timetable</h4>
               <p class="card-text">View the timetable in a tabular form. For a particular class, it specifies a
                   list of teachers who handle the same class that are free for that time slot.</p>
             </div>
-            <div class="card-footer">
-                <a class="btn btn-primary" role="button" href="{% url 't_timetable' request.user.teacher.id %}">View TimeTable</a>
+            <div class="card-footer bg-transparent border-0 pt-0">
+                <a class="btn btn-primary btn-block" role="button" href="{% url 't_timetable' request.user.teacher.id %}">View Timetable</a>
             </div>
           </div>
         </div>
 
         <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
+          <div class="card feature-card">
             <a href="{% url 't_clas' request.user.teacher.id 3 %}">
-                <img class="card-img-top" src="{% static 'info/images/reports.png' %}" alt="">
+                <img class="card-img-top" src="{% static 'info/images/reports.png' %}" alt="Reports">
             </a>
             <div class="card-body">
-              <h4 class="card-title">Reports</h4>
+              <h4 class="card-title mb-2">Reports</h4>
               <p class="card-text">Generate reports for each class. These reports include generating a table consisting
                     of the students belonging to that class and their respective CIE and Attendance.</p>
             </div>
-            <div class="card-footer">
-              <a href="{% url 't_clas' request.user.teacher.id 3 %}" class="btn btn-primary">Generate Reports</a>
+            <div class="card-footer bg-transparent border-0 pt-0">
+              <a href="{% url 't_clas' request.user.teacher.id 3 %}" class="btn btn-primary btn-block">Generate Reports</a>
             </div>
           </div>
         </div>
