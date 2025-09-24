@@ -57,7 +57,7 @@ class User(AbstractUser):
 
 
 class Dept(models.Model):
-    id = models.CharField(primary_key='True', max_length=100)
+    id = models.CharField(primary_key=True, max_length=100)
     name = models.CharField(max_length=200)
 
     def __str__(self):
@@ -66,7 +66,7 @@ class Dept(models.Model):
 
 class Course(models.Model):
     dept = models.ForeignKey(Dept, on_delete=models.CASCADE)
-    id = models.CharField(primary_key='True', max_length=50)
+    id = models.CharField(primary_key=True, max_length=50)
     name = models.CharField(max_length=50)
     shortname = models.CharField(max_length=50, default='X')
 
@@ -76,7 +76,7 @@ class Course(models.Model):
 
 class Class(models.Model):
     # courses = models.ManyToManyField(Course, default=1)
-    id = models.CharField(primary_key='True', max_length=100)
+    id = models.CharField(primary_key=True, max_length=100)
     dept = models.ForeignKey(Dept, on_delete=models.CASCADE)
     section = models.CharField(max_length=100)
     sem = models.IntegerField()
@@ -85,14 +85,13 @@ class Class(models.Model):
         verbose_name_plural = 'classes'
 
     def __str__(self):
-        d = Dept.objects.get(name=self.dept)
-        return '%s : %d %s' % (d.name, self.sem, self.section)
+        return '%s : %d %s' % (self.dept.name, self.sem, self.section)
 
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     class_id = models.ForeignKey(Class, on_delete=models.CASCADE, default=1)
-    USN = models.CharField(primary_key='True', max_length=100)
+    USN = models.CharField(primary_key=True, max_length=100)
     name = models.CharField(max_length=200)
     sex = models.CharField(max_length=50, choices=sex_choice, default='Male')
     DOB = models.DateField(default='1998-01-01')
@@ -122,10 +121,7 @@ class Assign(models.Model):
         unique_together = (('course', 'class_id', 'teacher'),)
 
     def __str__(self):
-        cl = Class.objects.get(id=self.class_id_id)
-        cr = Course.objects.get(id=self.course_id)
-        te = Teacher.objects.get(id=self.teacher_id)
-        return '%s : %s : %s' % (te.name, cr.shortname, cl)
+        return '%s : %s : %s' % (self.teacher.name, self.course.shortname, self.class_id)
 
 
 class AssignTime(models.Model):
@@ -149,12 +145,10 @@ class Attendance(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     attendanceclass = models.ForeignKey(AttendanceClass, on_delete=models.CASCADE, default=1)
     date = models.DateField(default='2018-10-23')
-    status = models.BooleanField(default='True')
+    status = models.BooleanField(default=True)
 
     def __str__(self):
-        sname = Student.objects.get(name=self.student)
-        cname = Course.objects.get(name=self.course)
-        return '%s : %s' % (sname.name, cname.shortname)
+        return '%s : %s' % (self.student.name, self.course.shortname)
 
 
 class AttendanceTotal(models.Model):
@@ -166,24 +160,16 @@ class AttendanceTotal(models.Model):
 
     @property
     def att_class(self):
-        stud = Student.objects.get(name=self.student)
-        cr = Course.objects.get(name=self.course)
-        att_class = Attendance.objects.filter(course=cr, student=stud, status='True').count()
-        return att_class
+        return Attendance.objects.filter(course=self.course, student=self.student, status=True).count()
 
     @property
     def total_class(self):
-        stud = Student.objects.get(name=self.student)
-        cr = Course.objects.get(name=self.course)
-        total_class = Attendance.objects.filter(course=cr, student=stud).count()
-        return total_class
+        return Attendance.objects.filter(course=self.course, student=self.student).count()
 
     @property
     def attendance(self):
-        stud = Student.objects.get(name=self.student)
-        cr = Course.objects.get(name=self.course)
-        total_class = Attendance.objects.filter(course=cr, student=stud).count()
-        att_class = Attendance.objects.filter(course=cr, student=stud, status='True').count()
+        total_class = Attendance.objects.filter(course=self.course, student=self.student).count()
+        att_class = Attendance.objects.filter(course=self.course, student=self.student, status=True).count()
         if total_class == 0:
             attendance = 0
         else:
@@ -192,10 +178,8 @@ class AttendanceTotal(models.Model):
 
     @property
     def classes_to_attend(self):
-        stud = Student.objects.get(name=self.student)
-        cr = Course.objects.get(name=self.course)
-        total_class = Attendance.objects.filter(course=cr, student=stud).count()
-        att_class = Attendance.objects.filter(course=cr, student=stud, status='True').count()
+        total_class = Attendance.objects.filter(course=self.course, student=self.student).count()
+        att_class = Attendance.objects.filter(course=self.course, student=self.student, status=True).count()
         cta = math.ceil((0.75 * total_class - att_class) / 0.25)
         if cta < 0:
             return 0
@@ -211,9 +195,7 @@ class StudentCourse(models.Model):
         verbose_name_plural = 'Marks'
 
     def __str__(self):
-        sname = Student.objects.get(name=self.student)
-        cname = Course.objects.get(name=self.course)
-        return '%s : %s' % (sname.name, cname.shortname)
+        return '%s : %s' % (self.student.name, self.course.shortname)
 
     def get_cie(self):
         marks_list = self.marks_set.all()
@@ -246,7 +228,7 @@ class Marks(models.Model):
 class MarksClass(models.Model):
     assign = models.ForeignKey(Assign, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, choices=test_name, default='Internal test 1')
-    status = models.BooleanField(default='False')
+    status = models.BooleanField(default=False)
 
     class Meta:
         unique_together = (('assign', 'name'),)

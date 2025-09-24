@@ -1,11 +1,16 @@
-/*!
- * Start Bootstrap - Heroic Features (https://startbootstrap.com/template-overviews/heroic-features)
- * Copyright 2013-2017 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-heroic-features/blob/master/LICENSE)
- */
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --info-color: #17a2b8;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+}
 
 body {
   padding-top: 54px;
+  background-color: var(--light-color);
 }
 
 @media (min-width: 992px) {
@@ -16,4 +21,58 @@ body {
 
 .card {
   height: 100%;
+  border: 1px solid var(--secondary-color);
+  border-radius: 0.25rem;
+}
+
+.card-title {
+  color: var(--primary-color);
+}
+
+.card-text {
+  color: var(--dark-color);
+}
+
+.card-footer {
+  background-color: var(--light-color);
+  border-top: 1px solid var(--secondary-color);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--dark-color);
+  border-color: var(--dark-color);
+}
+
+.jumbotron {
+  background-color: var(--primary-color);
+  color: var(--light-color);
+}
+
+.navbar {
+  background-color: var(--dark-color);
+}
+
+.navbar-brand, .nav-link {
+  color: var(--light-color);
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+}
+
+@media (max-width: 576px) {
+  .jumbotron {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .jumbotron {
+    padding: 4rem 2rem;
+  }
 }

@@ -117,11 +117,8 @@ def confirm(request, ass_c_id):
     cr = ass.course
     cl = ass.class_id
     for i, s in enumerate(cl.student_set.all()):
-        status = request.POST[s.USN]
-        if status == 'present':
-            status = 'True'
-        else:
-            status = 'False'
+        status_val = request.POST[s.USN]
+        status = True if status_val == 'present' else False
         if assc.status == 1:
             try:
                 a = Attendance.objects.get(course=cr, student=s, date=assc.date, attendanceclass=assc)
@@ -175,11 +172,8 @@ def e_confirm(request, assign_id):
     assc.save()
 
     for i, s in enumerate(cl.student_set.all()):
-        status = request.POST[s.USN]
-        if status == 'present':
-            status = 'True'
-        else:
-            status = 'False'
+        status_val = request.POST[s.USN]
+        status = True if status_val == 'present' else False
         date = request.POST['date']
         a = Attendance(course=cr, student=s, status=status, date=date, attendanceclass=assc)
         a.save()
@@ -273,12 +267,12 @@ def marks_list(request, stud_id):
         except StudentCourse.DoesNotExist:
             sc = StudentCourse(student=stud, course=ass.course)
             sc.save()
-            sc.marks_set.create(type='I', name='Internal test 1')
-            sc.marks_set.create(type='I', name='Internal test 2')
-            sc.marks_set.create(type='I', name='Internal test 3')
-            sc.marks_set.create(type='E', name='Event 1')
-            sc.marks_set.create(type='E', name='Event 2')
-            sc.marks_set.create(type='S', name='Semester End Exam')
+            sc.marks_set.create(name='Internal test 1')
+            sc.marks_set.create(name='Internal test 2')
+            sc.marks_set.create(name='Internal test 3')
+            sc.marks_set.create(name='Event 1')
+            sc.marks_set.create(name='Event 2')
+            sc.marks_set.create(name='Semester End Exam')
         sc_list.append(sc)
 
     return render(request, 'info/marks_list.html', {'sc_list': sc_list})
